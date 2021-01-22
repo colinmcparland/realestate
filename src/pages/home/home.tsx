@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import styled from "styled-components";
 import { cream } from "../../colors";
+import Button from "../../common/button";
 import GridContainer from "../../common/grid-container";
 import StyledText from "../../common/styled-text";
 import {
@@ -21,9 +22,13 @@ const LogoImage = styled.img`
   ${bigBottomPadding}
 `;
 
-const Home: FC = () => (
-  <HomeContainer justifyItems="center" rowGap="medium">
-    <LogoImage src={logoWithText} />
+const Home: FC = () => {
+  /* 
+    
+      Render the header text
+
+  */
+  const renderHeaderText = () => (
     <GridContainer columns="repeat(3, auto)">
       <StyledText size="h1" bold>
         How much is your home
@@ -35,7 +40,18 @@ const Home: FC = () => (
         worth?
       </StyledText>
     </GridContainer>
-  </HomeContainer>
-);
+  );
+
+  return (
+    <HomeContainer justifyItems="center" rowGap="medium">
+      <LogoImage src={logoWithText} />
+      {renderHeaderText()}
+      <GridContainer columns="repeat(2, auto)">
+        <div />
+        <Button>Submit</Button>
+      </GridContainer>
+    </HomeContainer>
+  );
+};
 
 export default Home;
