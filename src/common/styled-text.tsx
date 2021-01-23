@@ -31,6 +31,12 @@ const Text = styled.div<StyledTextProps>`
       font-size: 20px;
     `}
     ${(props) =>
+    props.size &&
+    props.size === "small" &&
+    css`
+      font-size: 14px;
+    `}
+    ${(props) =>
     props.bold &&
     css`
       font-weight: 700;
@@ -65,7 +71,7 @@ const Text = styled.div<StyledTextProps>`
 `;
 
 interface StyledTextProps extends HTMLAttributes<HTMLDivElement> {
-  size?: "h1" | "h2" | "h3" | "h4";
+  size?: "h1" | "h2" | "h3" | "h4" | "small";
   bold?: boolean;
   color?: "cream" | "lightOrange" | "darkOrange";
   italic?: boolean;

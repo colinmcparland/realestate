@@ -1,9 +1,9 @@
 import React, { FC, HTMLAttributes } from "react";
-import styled from "styled-components";
-import { black, darkOrange, lightOrange } from "../colors";
+import styled, { css } from "styled-components";
+import { black, darkOrange, lightOrange, white } from "../colors";
 import { mediumPadding } from "../css-constants";
 
-const StyledButton = styled.div`
+const StyledButton = styled.div<ButtonProps>`
   ${mediumPadding}
   border: 1px solid ${black};
   cursor: pointer;
@@ -24,16 +24,36 @@ const StyledButton = styled.div`
     background-color: ${lightOrange};
     -webkit-text-stroke: thick;
   }
+
+  ${(props) =>
+    props.disabled &&
+    css`
+      filter: opacity(50%);
+      cursor: not-allowed;
+
+      &:hover,
+      &:active {
+        background-color: ${white};
+        -webkit-text-stroke: unset;
+      }
+    `}
 `;
 
 interface ButtonProps extends HTMLAttributes<HTMLDivElement> {
   onClick?: () => void;
+  disabled?: boolean;
 }
 
-const Button: FC<ButtonProps> = ({ children, className, onClick }) => (
+const Button: FC<ButtonProps> = ({
+  children,
+  className,
+  onClick,
+  disabled,
+}) => (
   <StyledButton
     className={className}
     onClick={() => (onClick ? onClick() : null)}
+    disabled={disabled}
   >
     {children}
   </StyledButton>

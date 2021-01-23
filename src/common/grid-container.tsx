@@ -1,7 +1,10 @@
 import React, { FC, HTMLAttributes } from "react";
 import styled, { css } from "styled-components";
 import {
+  bigHorizontalGridGap,
   bigVerticalGridGap,
+  horizontalGridGap,
+  mediumHorizontalGridGap,
   mediumVerticalGridGap,
   verticalGridGap,
 } from "../css-constants";
@@ -19,6 +22,12 @@ const StyledGridContainer = styled.div<GridContainerProps>`
     props.justifyItems &&
     css`
       justify-items: ${props.justifyItems};
+    `}
+
+    ${(props) =>
+    props.alignContent &&
+    css`
+      align-content: ${props.alignContent};
     `}
 
     ${(props) =>
@@ -43,16 +52,42 @@ const StyledGridContainer = styled.div<GridContainerProps>`
     `}
 
     ${(props) =>
+    props.columnGap &&
+    props.columnGap === "small" &&
+    css`
+      ${horizontalGridGap}
+    `}
+
+    ${(props) =>
+    props.columnGap &&
+    props.columnGap === "medium" &&
+    css`
+      ${mediumHorizontalGridGap}
+    `}
+
+    ${(props) =>
+    props.columnGap &&
+    props.columnGap === "big" &&
+    css`
+      ${bigHorizontalGridGap}
+    `}
+
+    ${(props) =>
     props.columns &&
     css`
       grid-template-columns: ${props.columns};
     `}
 `;
 
+type FlexProps = "flex-start" | "flex-end" | "center";
+type SizeProps = "small" | "medium" | "big";
+
 interface GridContainerProps extends HTMLAttributes<HTMLDivElement> {
-  justifyContent?: "flex-start" | "flex-end" | "center";
-  justifyItems?: "flex-start" | "flex-end" | "center";
-  rowGap?: "small" | "medium" | "big";
+  justifyContent?: FlexProps;
+  justifyItems?: FlexProps;
+  alignContent?: FlexProps;
+  rowGap?: SizeProps;
+  columnGap?: SizeProps;
   columns?: string;
 }
 
@@ -63,6 +98,8 @@ const GridContainer: FC<GridContainerProps> = ({
   justifyItems,
   rowGap,
   columns,
+  columnGap,
+  alignContent,
 }) => {
   return (
     <StyledGridContainer
@@ -71,6 +108,8 @@ const GridContainer: FC<GridContainerProps> = ({
       className={className}
       rowGap={rowGap}
       columns={columns}
+      columnGap={columnGap}
+      alignContent={alignContent}
     >
       {children}
     </StyledGridContainer>

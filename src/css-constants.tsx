@@ -115,3 +115,14 @@ export const mediumVerticalGridGap = css`
 export const bigVerticalGridGap = css`
   grid-row-gap: 50px;
 `;
+export const horizontalGridGap = css`
+  grid-column-gap: 12px;
+`;
+
+export const mediumHorizontalGridGap = css`
+  grid-column-gap: 25px;
+`;
+
+export const bigHorizontalGridGap = css`
+  grid-column-gap: 50px;
+`;

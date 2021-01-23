@@ -3,15 +3,13 @@ import styled from "styled-components";
 import { cream } from "../../colors";
 import Button from "../../common/button";
 import GridContainer from "../../common/grid-container";
+import Input from "../../common/input";
 import StyledText from "../../common/styled-text";
-import {
-  bigBottomMargin,
-  bigBottomPadding,
-  bigPadding,
-} from "../../css-constants";
+import { bigBottomMargin, bigPadding } from "../../css-constants";
 import logoWithText from "../../images/logo-text.png";
 
 const HomeContainer = styled(GridContainer)`
+  min-height: 75vh;
   background-color: ${cream};
   ${bigPadding}
 `;
@@ -19,10 +17,14 @@ const HomeContainer = styled(GridContainer)`
 const LogoImage = styled.img`
   width: 276px;
   ${bigBottomMargin}
-  ${bigBottomPadding}
 `;
 
-const Home: FC = () => {
+interface HomeProps {
+  setAddress: (val: string) => void;
+  address: string | null;
+}
+
+const Home: FC<HomeProps> = ({ setAddress, address }) => {
   /* 
     
       Render the header text
@@ -42,14 +44,35 @@ const Home: FC = () => {
     </GridContainer>
   );
 
+  /* 
+  
+    Render the form for the address and unit number
+  
+  */
+  const renderForm = () => (
+    <GridContainer columns="400px auto" columnGap="small">
+      <GridContainer columns="75% 25%">
+        <Input
+          placeholder="Enter your address"
+          onChange={(val) => setAddress(val)}
+        />
+        <Input placeholder="Unit #" onChange={(val) => setAddress(val)} />
+      </GridContainer>
+
+      <Button disabled={!address}>Submit</Button>
+    </GridContainer>
+  );
+
   return (
-    <HomeContainer justifyItems="center" rowGap="medium">
+    <HomeContainer
+      justifyItems="center"
+      alignContent="flex-start"
+      rowGap="medium"
+    >
       <LogoImage src={logoWithText} />
       {renderHeaderText()}
-      <GridContainer columns="repeat(2, auto)">
-        <div />
-        <Button>Submit</Button>
-      </GridContainer>
+      {renderForm()}
+      <StyledText>Receive an accurate estimate in minutes.</StyledText>
     </HomeContainer>
   );
 };
