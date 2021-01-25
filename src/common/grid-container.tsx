@@ -24,10 +24,16 @@ const StyledGridContainer = styled.div<GridContainerProps>`
       justify-items: ${props.justifyItems};
     `}
 
-    ${(props) =>
+  ${(props) =>
     props.alignContent &&
     css`
       align-content: ${props.alignContent};
+    `}
+
+  ${(props) =>
+    props.alignItems &&
+    css`
+      align-content: ${props.alignItems};
     `}
 
     ${(props) =>
@@ -86,9 +92,11 @@ interface GridContainerProps extends HTMLAttributes<HTMLDivElement> {
   justifyContent?: FlexProps;
   justifyItems?: FlexProps;
   alignContent?: FlexProps;
+  alignItems?: FlexProps;
   rowGap?: SizeProps;
   columnGap?: SizeProps;
   columns?: string;
+  onClick?: () => void;
 }
 
 const GridContainer: FC<GridContainerProps> = ({
@@ -100,6 +108,7 @@ const GridContainer: FC<GridContainerProps> = ({
   columns,
   columnGap,
   alignContent,
+  onClick,
 }) => {
   return (
     <StyledGridContainer
@@ -110,6 +119,7 @@ const GridContainer: FC<GridContainerProps> = ({
       columns={columns}
       columnGap={columnGap}
       alignContent={alignContent}
+      onClick={() => (onClick ? onClick() : null)}
     >
       {children}
     </StyledGridContainer>

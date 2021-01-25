@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { cream } from "../../colors";
 import Button from "../../common/button";
@@ -25,6 +26,8 @@ interface HomeProps {
 }
 
 const Home: FC<HomeProps> = ({ setAddress, address }) => {
+  const history = useHistory();
+
   /* 
     
       Render the header text
@@ -59,7 +62,12 @@ const Home: FC<HomeProps> = ({ setAddress, address }) => {
         <Input placeholder="Unit #" onChange={(val) => setAddress(val)} />
       </GridContainer>
 
-      <Button disabled={!address}>Submit</Button>
+      <Button
+        disabled={!address}
+        onClick={() => (address ? history.push("/step-2") : null)}
+      >
+        Submit
+      </Button>
     </GridContainer>
   );
 

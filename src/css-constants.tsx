@@ -24,6 +24,22 @@ export const mediumVerticalPadding = css`
   padding: 25px 0;
 `;
 
+export const mediumTopPadding = css`
+  padding-top: 25px;
+`;
+
+export const mediumRightPadding = css`
+  padding-right: 25px;
+`;
+
+export const mediumBottomPadding = css`
+  padding-bottom: 25px;
+`;
+
+export const mediumLeftPadding = css`
+  padding-left: 25px;
+`;
+
 export const bigPadding = css`
   padding: 50px;
 `;
@@ -66,6 +82,22 @@ export const verticalMargin = css`
 
 export const mediumMargin = css`
   margin: 25px;
+`;
+
+export const mediumTopMargin = css`
+  margin-top: 25px;
+`;
+
+export const mediumRightMargin = css`
+  margin-right: 25px;
+`;
+
+export const mediumBottomMargin = css`
+  margin-bottom: 25px;
+`;
+
+export const mediumLeftMargin = css`
+  margin-left: 25px;
 `;
 
 export const mediumHorizontalMargin = css`

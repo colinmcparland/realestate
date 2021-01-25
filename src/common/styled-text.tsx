@@ -1,6 +1,6 @@
-import React, { FC, HTMLAttributes } from "react";
+import React, { FC, HTMLAttributes, SyntheticEvent } from "react";
 import styled, { css } from "styled-components";
-import { cream, darkOrange, lightOrange } from "../colors";
+import { cream, darkOrange, lightOrange, white } from "../colors";
 
 const Text = styled.div<StyledTextProps>`
   font-size: 17px;
@@ -51,6 +51,13 @@ const Text = styled.div<StyledTextProps>`
 
   ${(props) =>
     props.color &&
+    props.color === "white" &&
+    css`
+      color: ${white};
+    `}
+
+  ${(props) =>
+    props.color &&
     props.color === "lightOrange" &&
     css`
       color: ${lightOrange};
@@ -68,13 +75,22 @@ const Text = styled.div<StyledTextProps>`
     css`
       font-style: italic;
     `}
+
+  ${(props) =>
+    props.opaque &&
+    css`
+      filter: opacity(50%);
+    `}
 `;
 
-interface StyledTextProps extends HTMLAttributes<HTMLDivElement> {
+interface StyledTextProps
+  extends Pick<HTMLAttributes<HTMLDivElement>, "children" | "className"> {
   size?: "h1" | "h2" | "h3" | "h4" | "small";
   bold?: boolean;
-  color?: "cream" | "lightOrange" | "darkOrange";
+  color?: "cream" | "lightOrange" | "darkOrange" | "white";
   italic?: boolean;
+  opaque?: boolean;
+  onClick?: (e: SyntheticEvent) => void;
 }
 
 const StyledText: FC<StyledTextProps> = ({
@@ -84,6 +100,8 @@ const StyledText: FC<StyledTextProps> = ({
   bold,
   color,
   italic,
+  opaque,
+  onClick,
 }) => (
   <Text
     size={size}
@@ -91,6 +109,8 @@ const StyledText: FC<StyledTextProps> = ({
     italic={italic}
     className={className}
     bold={bold}
+    opaque={opaque}
+    onClick={(e: SyntheticEvent) => (onClick ? onClick(e) : null)}
   >
     {children}
   </Text>

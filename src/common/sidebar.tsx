@@ -1,0 +1,41 @@
+import React, { FC } from "react";
+import styled from "styled-components";
+import { darkOrange } from "../colors";
+import { bigPadding } from "../css-constants";
+import skyline from "../images/skyline.png";
+import GridContainer from "./grid-container";
+import StyledText from "./styled-text";
+
+const SidebarContainer = styled(GridContainer)`
+  background-color: ${darkOrange};
+`;
+
+const SkylineImage = styled.img`
+  max-width: 100%;
+  align-self: flex-end;
+`;
+
+const TextContainer = styled(GridContainer)`
+  ${bigPadding}
+`;
+
+const Sidebar: FC = () => (
+  <SidebarContainer>
+    <TextContainer alignContent="flex-start" rowGap="big">
+      <StyledText bold opaque>
+        Toronto Home Value
+      </StyledText>
+      <GridContainer rowGap="medium">
+        <StyledText bold size="h2" color="white">
+          Success!
+        </StyledText>
+        <StyledText bold size="h2" color="white">
+          We found your address.
+        </StyledText>
+      </GridContainer>
+    </TextContainer>
+    <SkylineImage src={skyline} />
+  </SidebarContainer>
+);
+
+export default Sidebar;

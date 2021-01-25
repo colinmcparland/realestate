@@ -5,9 +5,14 @@ import GridContainer from "./common/grid-container";
 import StyledText from "./common/styled-text";
 import { mediumPadding } from "./css-constants";
 import Home from "./pages/home/home";
+import Step2 from "./pages/step2/step2";
 
 const FooterContainer = styled(GridContainer)`
   ${mediumPadding}
+`;
+
+const PageContainer = styled(GridContainer)`
+  min-height: 95vh;
 `;
 
 const App: FC = () => {
@@ -40,13 +45,18 @@ const App: FC = () => {
   );
   return (
     <>
-      <Router>
-        <Switch>
-          <Route path="/">
-            <Home setAddress={setAddress} address={address} />
-          </Route>
-        </Switch>
-      </Router>
+      <PageContainer>
+        <Router>
+          <Switch>
+            <Route path="/step-2">
+              <Step2 />
+            </Route>
+            <Route path="/">
+              <Home setAddress={setAddress} address={address} />
+            </Route>
+          </Switch>
+        </Router>
+      </PageContainer>
       {renderFooter()}
     </>
   );
