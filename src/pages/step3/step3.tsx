@@ -110,7 +110,7 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
         placeholder="(555) 555-5555"
       />
       <GridContainer justifySelf="flex-start">
-        <Button disabled={!formIsValid}>Next</Button>
+        <Button disabled={!formIsValid}>Get Estimate</Button>
       </GridContainer>
     </GridContainer>
   );
