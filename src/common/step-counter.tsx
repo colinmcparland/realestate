@@ -56,7 +56,7 @@ const StepCounter: FC<StepCounterProps> = ({ step }) => (
         <Step
           alignContent="center"
           justifyContent="center"
-          active={index === 0 || index === step - 1}
+          active={index < step}
         >
           <StyledText size="h4" color="white">
             {index + 1}

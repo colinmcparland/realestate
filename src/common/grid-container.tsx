@@ -13,6 +13,12 @@ const StyledGridContainer = styled.div<GridContainerProps>`
   display: grid;
 
   ${(props) =>
+    props.justifySelf &&
+    css`
+      justify-self: ${props.justifySelf};
+    `}
+
+  ${(props) =>
     props.justifyContent &&
     css`
       justify-content: ${props.justifyContent};
@@ -85,7 +91,7 @@ const StyledGridContainer = styled.div<GridContainerProps>`
     `}
 `;
 
-type FlexProps = "flex-start" | "flex-end" | "center";
+type FlexProps = "flex-start" | "flex-end" | "center" | "stretch";
 type SizeProps = "small" | "medium" | "big";
 
 interface GridContainerProps extends HTMLAttributes<HTMLDivElement> {
@@ -97,6 +103,7 @@ interface GridContainerProps extends HTMLAttributes<HTMLDivElement> {
   columnGap?: SizeProps;
   columns?: string;
   onClick?: () => void;
+  justifySelf?: FlexProps;
 }
 
 const GridContainer: FC<GridContainerProps> = ({
@@ -109,6 +116,7 @@ const GridContainer: FC<GridContainerProps> = ({
   columnGap,
   alignContent,
   onClick,
+  justifySelf,
 }) => {
   return (
     <StyledGridContainer
@@ -120,6 +128,7 @@ const GridContainer: FC<GridContainerProps> = ({
       columnGap={columnGap}
       alignContent={alignContent}
       onClick={() => (onClick ? onClick() : null)}
+      justifySelf={justifySelf}
     >
       {children}
     </StyledGridContainer>

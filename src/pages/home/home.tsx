@@ -98,7 +98,7 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
   */
   const renderForm = () => (
     <FormContainer columns="400px auto" columnGap="small">
-      <GridContainer columns="75% 25%">
+      <GridContainer>
         <Input
           disabled={!ready}
           placeholder="Enter your address"
@@ -113,7 +113,6 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
           }}
           value={inputValue}
         />
-        <Input placeholder="Unit #" onChange={() => {}} />
       </GridContainer>
 
       {/* Suggestions */}

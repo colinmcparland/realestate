@@ -60,6 +60,36 @@ const Step2: FC<Step2Props> = ({ formData, setFormData }) => {
 
   /* 
   
+    Choices for the select menus
+
+  */
+  const howSoonChoices = [
+    "Within 30 Days",
+    "Within 3 months",
+    "Within 6 months",
+    "Within 1 year",
+    "Over a year",
+  ];
+
+  const conditionChoices = [
+    "Needs nothing",
+    "Needs a little work",
+    "Needs significant work",
+    "Tear down",
+  ];
+
+  const propertyTypeChoices = [
+    "Single Family Home",
+    "Condominium",
+    "Townhouse",
+    "Multi-Family",
+    "Other",
+  ];
+
+  const agentChoices = ["Yes", "No"];
+
+  /* 
+  
     Render the text for under the progress dots
   
   */
@@ -72,51 +102,47 @@ const Step2: FC<Step2Props> = ({ formData, setFormData }) => {
 
   /* 
   
+    Function to check if the selects have an option selected initially.
+    Will improve UI if the user goes back from step 3 to step 2, so the selects will maintain their original value
+  
+  */
+  const isOptionSelected = (option: string | null, choices: string[]) =>
+    option && choices.indexOf(option) > -1 ? choices.indexOf(option) : null;
+
+  /* 
+  
     Render the form selects
   
   */
   const renderSelects = () => (
     <GridContainer rowGap="small" justifyItems="flex-start" columns="1fr">
       <Select
-        options={[
-          "Within 30 Days",
-          "Within 3 months",
-          "Within 6 months",
-          "Within 1 year",
-          "Over a year",
-        ]}
+        options={howSoonChoices}
         placeholder="Select option"
         onSelect={(val) => setFormData({ ...formData, howSoon: val })}
         label="How soon are you looking to sell?"
+        initialIndex={isOptionSelected(howSoon, howSoonChoices)}
       />
       <Select
-        options={[
-          "Needs nothing",
-          "Needs a little work",
-          "Needs significant work",
-          "Tear down",
-        ]}
+        options={conditionChoices}
         placeholder="Select option"
         onSelect={(val) => setFormData({ ...formData, condition: val })}
         label="What is the condition of your home?"
+        initialIndex={isOptionSelected(condition, conditionChoices)}
       />
       <Select
-        options={[
-          "Single Family Home",
-          "Condominium",
-          "Townhouse",
-          "Multi-Family",
-          "Other",
-        ]}
+        options={propertyTypeChoices}
         placeholder="Select option"
         onSelect={(val) => setFormData({ ...formData, propertyType: val })}
         label="What type of property is this?"
+        initialIndex={isOptionSelected(propertyType, propertyTypeChoices)}
       />
       <Select
-        options={["Yes", "No"]}
+        options={agentChoices}
         placeholder="Select option"
         onSelect={(val) => setFormData({ ...formData, workingWithAgent: val })}
         label="Are you currently working with an agent?"
+        initialIndex={isOptionSelected(workingWithAgent, agentChoices)}
       />
       <Button
         disabled={!isFormValid}

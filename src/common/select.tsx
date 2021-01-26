@@ -68,10 +68,21 @@ interface SelectProps {
   options: string[];
   onSelect: (value: string) => void;
   placeholder: string;
+  initialIndex?: number | null;
 }
 
-const Select: FC<SelectProps> = ({ label, options, onSelect, placeholder }) => {
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+const Select: FC<SelectProps> = ({
+  label,
+  options,
+  onSelect,
+  placeholder,
+  initialIndex,
+}) => {
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(
+    initialIndex !== null && typeof initialIndex !== "undefined"
+      ? initialIndex
+      : null
+  );
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
 
   return (

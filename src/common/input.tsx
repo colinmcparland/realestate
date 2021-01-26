@@ -2,15 +2,13 @@ import React, { ChangeEvent, FC } from "react";
 import styled from "styled-components";
 import { black } from "../colors";
 import { mediumPadding } from "../css-constants";
+import GridContainer from "./grid-container";
+import StyledText from "./styled-text";
 
 const StyledInput = styled.input`
   border: 1px solid ${black};
   border-radius: 0;
   ${mediumPadding}
-
-  &:last-child {
-    border-left: none;
-  }
 
   &:disabled {
     cursor: not-allowed;
@@ -23,15 +21,37 @@ interface InputProps {
   onChange: (value: string) => void;
   value?: string | null;
   disabled?: boolean;
+  label?: string;
 }
 
-const Input: FC<InputProps> = ({ placeholder, onChange, disabled, value }) => (
-  <StyledInput
-    disabled={disabled}
-    placeholder={placeholder}
-    onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
-    value={value || ""}
-  />
-);
+const Input: FC<InputProps> = ({
+  placeholder,
+  onChange,
+  disabled,
+  value,
+  label,
+}) => {
+  const renderLabel = (children: JSX.Element) => {
+    if (label) {
+      return (
+        <GridContainer rowGap="small">
+          <StyledText>{label}</StyledText>
+          {children}
+        </GridContainer>
+      );
+    }
+
+    return children;
+  };
+
+  return renderLabel(
+    <StyledInput
+      disabled={disabled}
+      placeholder={placeholder}
+      onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
+      value={value || ""}
+    />
+  );
+};
 
 export default Input;

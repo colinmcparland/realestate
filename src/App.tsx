@@ -48,6 +48,9 @@ const App: FC = () => {
     condition: null,
     propertyType: null,
     workingWithAgent: null,
+    name: null,
+    email: null,
+    phone: null,
   });
 
   /* 
@@ -79,7 +82,7 @@ const App: FC = () => {
               <Step2 formData={formData} setFormData={setFormData} />
             </Route>
             <Route path="/step-3">
-              <Step3 address={formData.address} />
+              <Step3 formData={formData} setFormData={setFormData} />
             </Route>
             <Route path="/">
               <Home setFormData={setFormData} formData={formData} />
