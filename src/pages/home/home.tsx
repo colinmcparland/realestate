@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { Dispatch, FC, SetStateAction, useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import usePlacesAutocomplete from "use-places-autocomplete";
@@ -10,6 +10,7 @@ import Input from "../../common/input";
 import StyledText from "../../common/styled-text";
 import { bigBottomMargin, bigPadding, padding } from "../../css-constants";
 import logoWithText from "../../images/logo-text.png";
+import { AllFormData } from "../../App.types";
 
 const HomeContainer = styled(GridContainer)`
   min-height: 75vh;
@@ -39,11 +40,11 @@ const FormContainer = styled(GridContainer)`
 `;
 
 interface HomeProps {
-  setAddress: (val: string) => void;
-  address: string | null;
+  setFormData: Dispatch<SetStateAction<AllFormData>>;
+  formData: AllFormData;
 }
 
-const Home: FC<HomeProps> = ({ setAddress, address }) => {
+const Home: FC<HomeProps> = ({ setFormData, formData }) => {
   const history = useHistory();
   /* 
   
@@ -56,6 +57,20 @@ const Home: FC<HomeProps> = ({ setAddress, address }) => {
     setValue,
     clearSuggestions,
   } = usePlacesAutocomplete({ debounce: 30, callbackName: "initMap" });
+
+  /* 
+  
+    Destructure form data
+  
+  */
+  const { address } = formData;
+
+  /* 
+  
+    Keep track of the input data
+  
+  */
+  const [inputValue, setInputValue] = useState<string | null>(null);
 
   /* 
     
@@ -88,10 +103,15 @@ const Home: FC<HomeProps> = ({ setAddress, address }) => {
           disabled={!ready}
           placeholder="Enter your address"
           onChange={(val) => {
-            setAddress(val);
+            setInputValue(val);
             setValue(val);
+
+            // If the user changes the input after selecting a valid address, remove the valid address so they cant proceed with gibberish
+            if (address) {
+              setFormData({ ...formData, address: null });
+            }
           }}
-          value={address}
+          value={inputValue}
         />
         <Input placeholder="Unit #" onChange={() => {}} />
       </GridContainer>
@@ -102,7 +122,8 @@ const Home: FC<HomeProps> = ({ setAddress, address }) => {
           <Suggestion
             key={idGenerator()}
             onClick={() => {
-              setAddress(suggestion.description);
+              setFormData({ ...formData, address: suggestion.description });
+              setInputValue(suggestion.description);
               clearSuggestions();
             }}
             columns="auto auto"

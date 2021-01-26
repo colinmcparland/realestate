@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import styled from "styled-components";
+import { AllFormData } from "./App.types";
 import GridContainer from "./common/grid-container";
 import StyledText from "./common/styled-text";
 import { mediumPadding } from "./css-constants";
@@ -34,12 +35,20 @@ const App: FC = () => {
       document.body.appendChild(script);
     }
   }, []);
+
   /* 
   
-    Keep track of the address the users enters into the form
+    Keep track of all the data the users enters into the forms
   
   */
-  const [address, setAddress] = useState<string | null>(null);
+  const [formData, setFormData] = useState<AllFormData>({
+    address: null,
+    unit: null,
+    howSoon: null,
+    condition: null,
+    propertyType: null,
+    workingWithAgent: null,
+  });
 
   /* 
  
@@ -67,13 +76,13 @@ const App: FC = () => {
         <Router>
           <Switch>
             <Route path="/step-2">
-              <Step2 address={address} />
+              <Step2 address={formData.address} />
             </Route>
             <Route path="/step-3">
-              <Step3 address={address} />
+              <Step3 address={formData.address} />
             </Route>
             <Route path="/">
-              <Home setAddress={setAddress} address={address} />
+              <Home setFormData={setFormData} formData={formData} />
             </Route>
           </Switch>
         </Router>

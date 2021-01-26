@@ -85,7 +85,7 @@ const Step2: FC<Step2Props> = ({ address }) => {
         onSelect={() => {}}
         label="Are you currently working with an agent?"
       />
-      <Button>Next</Button>
+      <Button onClick={() => history.push("/step-3")}>Next</Button>
     </GridContainer>
   );
 
