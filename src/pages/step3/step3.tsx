@@ -10,7 +10,7 @@ import StepCounter from "../../common/step-counter";
 import StyledText from "../../common/styled-text";
 import { bigMargin, bigPadding, bigBottomPadding } from "../../css-constants";
 
-const Step2Container = styled(GridContainer)`
+const Step3Container = styled(GridContainer)`
   background-color: ${cream};
 `;
 
@@ -24,11 +24,11 @@ const TextContainer = styled(GridContainer)`
   ${bigBottomPadding}
 `;
 
-interface Step2Props {
+interface Step3Props {
   address: string | null;
 }
 
-const Step2: FC<Step2Props> = ({ address }) => {
+const Step3: FC<Step3Props> = ({ address }) => {
   const history = useHistory();
 
   /* 
@@ -100,7 +100,7 @@ const Step2: FC<Step2Props> = ({ address }) => {
   }
 
   return (
-    <Step2Container columns="35% 1fr">
+    <Step3Container columns="35% 1fr">
       <Sidebar address={address} />
       <FormContainer
         justifyContent="flex-start"
@@ -111,8 +111,8 @@ const Step2: FC<Step2Props> = ({ address }) => {
         {renderText()}
         {renderSelects()}
       </FormContainer>
-    </Step2Container>
+    </Step3Container>
   );
 };
 
-export default Step2;
+export default Step3;

@@ -1,6 +1,12 @@
 import React, { FC, HTMLAttributes, SyntheticEvent } from "react";
 import styled, { css } from "styled-components";
-import { cream, darkOrange, lightOrange, white } from "../colors";
+import {
+  cream,
+  darkOrange,
+  lightOrange,
+  white,
+  whiteTransparent,
+} from "../colors";
 
 const Text = styled.div<StyledTextProps>`
   font-size: 17px;
@@ -58,6 +64,13 @@ const Text = styled.div<StyledTextProps>`
 
   ${(props) =>
     props.color &&
+    props.color === "whiteTransparent" &&
+    css`
+      color: ${whiteTransparent};
+    `}
+
+  ${(props) =>
+    props.color &&
     props.color === "lightOrange" &&
     css`
       color: ${lightOrange};
@@ -87,7 +100,7 @@ interface StyledTextProps
   extends Pick<HTMLAttributes<HTMLDivElement>, "children" | "className"> {
   size?: "h1" | "h2" | "h3" | "h4" | "small";
   bold?: boolean;
-  color?: "cream" | "lightOrange" | "darkOrange" | "white";
+  color?: "cream" | "lightOrange" | "darkOrange" | "white" | "whiteTransparent";
   italic?: boolean;
   opaque?: boolean;
   onClick?: (e: SyntheticEvent) => void;

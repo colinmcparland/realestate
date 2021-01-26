@@ -84,6 +84,22 @@ export const mediumMargin = css`
   margin: 25px;
 `;
 
+export const topMargin = css`
+  margin-top: 12px;
+`;
+
+export const rightMargin = css`
+  margin-right: 12px;
+`;
+
+export const bottomMargin = css`
+  margin-bottom: 12px;
+`;
+
+export const leftMargin = css`
+  margin-left: 12px;
+`;
+
 export const mediumTopMargin = css`
   margin-top: 25px;
 `;

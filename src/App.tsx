@@ -6,6 +6,7 @@ import StyledText from "./common/styled-text";
 import { mediumPadding } from "./css-constants";
 import Home from "./pages/home/home";
 import Step2 from "./pages/step2/step2";
+import Step3 from "./pages/step3/step3";
 
 const FooterContainer = styled(GridContainer)`
   ${mediumPadding}
@@ -66,7 +67,10 @@ const App: FC = () => {
         <Router>
           <Switch>
             <Route path="/step-2">
-              <Step2 />
+              <Step2 address={address} />
+            </Route>
+            <Route path="/step-3">
+              <Step3 address={address} />
             </Route>
             <Route path="/">
               <Home setAddress={setAddress} address={address} />

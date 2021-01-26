@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import styled from "styled-components";
 import { darkOrange } from "../colors";
-import { bigPadding } from "../css-constants";
+import { bigPadding, topMargin } from "../css-constants";
 import skyline from "../images/skyline.png";
 import GridContainer from "./grid-container";
 import StyledText from "./styled-text";
@@ -19,7 +19,14 @@ const TextContainer = styled(GridContainer)`
   ${bigPadding}
 `;
 
-const Sidebar: FC = () => (
+const AddressContainer = styled(StyledText)`
+  ${topMargin}
+`;
+
+interface SidebarProps {
+  address: string | null;
+}
+const Sidebar: FC<SidebarProps> = ({ address }) => (
   <SidebarContainer>
     <TextContainer alignContent="flex-start" rowGap="big">
       <StyledText bold opaque>
@@ -32,6 +39,11 @@ const Sidebar: FC = () => (
         <StyledText bold size="h2" color="white">
           We found your address.
         </StyledText>
+        {address && (
+          <AddressContainer bold color="whiteTransparent" size="h3">
+            {address}
+          </AddressContainer>
+        )}
       </GridContainer>
     </TextContainer>
     <SkylineImage src={skyline} />
