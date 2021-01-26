@@ -5,6 +5,7 @@ import { AllFormData } from "./App.types";
 import GridContainer from "./common/grid-container";
 import StyledText from "./common/styled-text";
 import { mediumPadding } from "./css-constants";
+import Confirm from "./pages/confirm/confirm";
 import Home from "./pages/home/home";
 import Step2 from "./pages/step2/step2";
 import Step3 from "./pages/step3/step3";
@@ -83,6 +84,9 @@ const App: FC = () => {
             </Route>
             <Route path="/step-3">
               <Step3 formData={formData} setFormData={setFormData} />
+            </Route>
+            <Route path="/confirm">
+              <Confirm formData={formData} setFormData={setFormData} />
             </Route>
             <Route path="/">
               <Home setFormData={setFormData} formData={formData} />
