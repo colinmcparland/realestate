@@ -1,12 +1,14 @@
 import React, { FC } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { cream } from "../../colors";
+import usePlacesAutocomplete from "use-places-autocomplete";
+import idGenerator from "react-id-generator";
+import { blackTransparent, cream, white } from "../../colors";
 import Button from "../../common/button";
 import GridContainer from "../../common/grid-container";
 import Input from "../../common/input";
 import StyledText from "../../common/styled-text";
-import { bigBottomMargin, bigPadding } from "../../css-constants";
+import { bigBottomMargin, bigPadding, padding } from "../../css-constants";
 import logoWithText from "../../images/logo-text.png";
 
 const HomeContainer = styled(GridContainer)`
@@ -20,6 +22,22 @@ const LogoImage = styled.img`
   ${bigBottomMargin}
 `;
 
+const SuggestionsContainer = styled(GridContainer)`
+  position: absolute;
+  width: 400px;
+  top: 100%;
+  box-shadow: 0px 1px 5px ${blackTransparent};
+`;
+
+const Suggestion = styled(GridContainer)`
+  ${padding}
+  background-color: ${white};
+`;
+
+const FormContainer = styled(GridContainer)`
+  position: relative;
+`;
+
 interface HomeProps {
   setAddress: (val: string) => void;
   address: string | null;
@@ -27,6 +45,17 @@ interface HomeProps {
 
 const Home: FC<HomeProps> = ({ setAddress, address }) => {
   const history = useHistory();
+  /* 
+  
+    Load in a custom hook to interact with Google Places API
+  
+  */
+  const {
+    ready,
+    suggestions: { data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({ debounce: 30, callbackName: "initMap" });
 
   /* 
     
@@ -53,14 +82,36 @@ const Home: FC<HomeProps> = ({ setAddress, address }) => {
   
   */
   const renderForm = () => (
-    <GridContainer columns="400px auto" columnGap="small">
+    <FormContainer columns="400px auto" columnGap="small">
       <GridContainer columns="75% 25%">
         <Input
+          disabled={!ready}
           placeholder="Enter your address"
-          onChange={(val) => setAddress(val)}
+          onChange={(val) => {
+            setAddress(val);
+            setValue(val);
+          }}
+          value={address}
         />
-        <Input placeholder="Unit #" onChange={(val) => setAddress(val)} />
+        <Input placeholder="Unit #" onChange={() => {}} />
       </GridContainer>
+
+      {/* Suggestions */}
+      <SuggestionsContainer>
+        {data.map((suggestion) => (
+          <Suggestion
+            key={idGenerator()}
+            onClick={() => {
+              setAddress(suggestion.description);
+              clearSuggestions();
+            }}
+            columns="auto auto"
+            columnGap="small"
+          >
+            {suggestion.description}
+          </Suggestion>
+        ))}
+      </SuggestionsContainer>
 
       <Button
         disabled={!address}
@@ -68,7 +119,7 @@ const Home: FC<HomeProps> = ({ setAddress, address }) => {
       >
         Submit
       </Button>
-    </GridContainer>
+    </FormContainer>
   );
 
   return (

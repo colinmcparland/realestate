@@ -17,12 +17,10 @@ const StyledButton = styled.div<ButtonProps>`
   /* Force heavy font weights on hover and active states */
   &:active {
     background-color: ${darkOrange};
-    -webkit-text-stroke: thick;
   }
 
   &:hover {
     background-color: ${lightOrange};
-    -webkit-text-stroke: thick;
   }
 
   ${(props) =>
@@ -34,7 +32,6 @@ const StyledButton = styled.div<ButtonProps>`
       &:hover,
       &:active {
         background-color: ${white};
-        -webkit-text-stroke: unset;
       }
     `}
 `;

@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import styled from "styled-components";
 import GridContainer from "./common/grid-container";
@@ -16,6 +16,23 @@ const PageContainer = styled(GridContainer)`
 `;
 
 const App: FC = () => {
+  /* 
+  
+    Add the external Google Places API script
+  
+  */
+  const firstRender = useRef(true);
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      const script = document.createElement("script");
+
+      script.src =
+        "https://maps.googleapis.com/maps/api/js?key=AIzaSyAbdl8bckQGEC3FriXGPaYQ5ts2eam5Lbw&libraries=places&callback=initMap";
+
+      document.body.appendChild(script);
+    }
+  }, []);
   /* 
   
     Keep track of the address the users enters into the form

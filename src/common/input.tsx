@@ -11,18 +11,26 @@ const StyledInput = styled.input`
   &:last-child {
     border-left: none;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    filter: brightness(50%);
+  }
 `;
 
 interface InputProps {
   placeholder: string;
   onChange: (value: string) => void;
-  value?: string;
+  value?: string | null;
+  disabled?: boolean;
 }
 
-const Input: FC<InputProps> = ({ placeholder, onChange }) => (
+const Input: FC<InputProps> = ({ placeholder, onChange, disabled, value }) => (
   <StyledInput
+    disabled={disabled}
     placeholder={placeholder}
     onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
+    value={value || ""}
   />
 );
 
