@@ -1,6 +1,7 @@
-import React, { FC } from "react";
+import React, { Dispatch, FC, SetStateAction } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+import { AllFormData } from "../../App.types";
 import { cream, darkOrange } from "../../colors";
 import Button from "../../common/button";
 import GridContainer from "../../common/grid-container";
@@ -25,11 +26,37 @@ const TextContainer = styled(GridContainer)`
 `;
 
 interface Step2Props {
-  address: string | null;
+  formData: AllFormData;
+  setFormData: Dispatch<SetStateAction<AllFormData>>;
 }
 
-const Step2: FC<Step2Props> = ({ address }) => {
+const Step2: FC<Step2Props> = ({ formData, setFormData }) => {
   const history = useHistory();
+
+  /* 
+  
+    Destructure form data
+  
+  */
+  const {
+    address,
+    howSoon,
+    condition,
+    propertyType,
+    workingWithAgent,
+  } = formData;
+
+  /* 
+  
+    Keep track of wether the form is validated
+  
+  */
+  const isFormValid = !!(
+    howSoon &&
+    condition &&
+    propertyType &&
+    workingWithAgent
+  );
 
   /* 
   
@@ -51,9 +78,15 @@ const Step2: FC<Step2Props> = ({ address }) => {
   const renderSelects = () => (
     <GridContainer rowGap="small" justifyItems="flex-start" columns="1fr">
       <Select
-        options={["Option A", "Option B", "Option C"]}
+        options={[
+          "Within 30 Days",
+          "Within 3 months",
+          "Within 6 months",
+          "Within 1 year",
+          "Over a year",
+        ]}
         placeholder="Select option"
-        onSelect={() => {}}
+        onSelect={(val) => setFormData({ ...formData, howSoon: val })}
         label="How soon are you looking to sell?"
       />
       <Select
@@ -64,7 +97,7 @@ const Step2: FC<Step2Props> = ({ address }) => {
           "Tear down",
         ]}
         placeholder="Select option"
-        onSelect={() => {}}
+        onSelect={(val) => setFormData({ ...formData, condition: val })}
         label="What is the condition of your home?"
       />
       <Select
@@ -76,16 +109,21 @@ const Step2: FC<Step2Props> = ({ address }) => {
           "Other",
         ]}
         placeholder="Select option"
-        onSelect={() => {}}
+        onSelect={(val) => setFormData({ ...formData, propertyType: val })}
         label="What type of property is this?"
       />
       <Select
         options={["Yes", "No"]}
         placeholder="Select option"
-        onSelect={() => {}}
+        onSelect={(val) => setFormData({ ...formData, workingWithAgent: val })}
         label="Are you currently working with an agent?"
       />
-      <Button onClick={() => history.push("/step-3")}>Next</Button>
+      <Button
+        disabled={!isFormValid}
+        onClick={() => (isFormValid ? history.push("/step-3") : null)}
+      >
+        Next
+      </Button>
     </GridContainer>
   );
 
@@ -94,7 +132,6 @@ const Step2: FC<Step2Props> = ({ address }) => {
     If a user navigates directly to this URL without an address, redirect them home
   
   */
-
   if (!address) {
     history.replace("/");
   }

@@ -66,7 +66,7 @@ const StyledDropdown = styled(GridContainer)`
 interface SelectProps {
   label?: string;
   options: string[];
-  onSelect: (value: any) => void;
+  onSelect: (value: string) => void;
   placeholder: string;
 }
 
@@ -93,8 +93,8 @@ const Select: FC<SelectProps> = ({ label, options, onSelect, placeholder }) => {
                 key={idGenerator()}
                 onClick={(e: SyntheticEvent) => {
                   setSelectedIndex(index);
-                  if (onSelect) {
-                    onSelect(e.currentTarget.nodeValue);
+                  if (onSelect && e.currentTarget.textContent) {
+                    onSelect(e.currentTarget.textContent);
                   }
                 }}
               >

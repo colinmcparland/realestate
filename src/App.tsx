@@ -76,7 +76,7 @@ const App: FC = () => {
         <Router>
           <Switch>
             <Route path="/step-2">
-              <Step2 address={formData.address} />
+              <Step2 formData={formData} setFormData={setFormData} />
             </Route>
             <Route path="/step-3">
               <Step3 address={formData.address} />
