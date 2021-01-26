@@ -1,4 +1,4 @@
-[torontorealestate.tinybird.ca](torontorealestate.tinybird.ca)
+[torontorealestate.tinybird.ca](http://torontorealestate.tinybird.ca)
 
 # TODO
 - Add Recaptcha to step 3 page
