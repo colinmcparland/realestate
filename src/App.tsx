@@ -52,6 +52,7 @@ const App: FC = () => {
     name: null,
     email: null,
     phone: null,
+    recaptcha: null,
   });
 
   /* 

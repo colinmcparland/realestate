@@ -1,6 +1,7 @@
 import React, { Dispatch, FC, SetStateAction } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+import ReCAPTCHA from "react-google-recaptcha";
 import { AllFormData } from "../../App.types";
 import { cream, darkOrange } from "../../colors";
 import Button from "../../common/button";
@@ -38,7 +39,7 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
     Destructure form data
   
   */
-  const { name, email, phone, address } = formData;
+  const { name, email, phone, address, recaptcha } = formData;
 
   /* 
   
@@ -69,20 +70,32 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
     name &&
     email &&
     phone &&
+    recaptcha &&
     validateEmail(email) &&
     validatePhone(phone)
   );
 
   /* 
   
-    Render the text for under the progress dots
+    Function that will run when the form is submitted
   
   */
-  const renderText = () => (
-    <TextContainer>
-      <StyledText size="h3">Where should we send your estimate?</StyledText>
-    </TextContainer>
-  );
+  const handleFormSubmit = async () => {
+    console.log(JSON.stringify({ recaptcha }));
+    // Check that the recaptcha is valid
+    const resp = await fetch(`http://${window.location.hostname}:8080`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ recaptcha }),
+    });
+
+    const responseBody = await resp.json();
+
+    if (responseBody.success) {
+      // Send mailchimp email
+      history.push("/verification");
+    }
+  };
 
   /* 
   
@@ -109,8 +122,17 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
         onChange={(val) => setFormData({ ...formData, phone: val })}
         placeholder="(555) 555-5555"
       />
-      <GridContainer justifySelf="flex-start">
-        <Button disabled={!formIsValid}>Get Estimate</Button>
+      <GridContainer justifySelf="flex-start" rowGap="small">
+        <ReCAPTCHA
+          sitekey="6Le-nT0aAAAAACTdprtG_gThB68R9nPmr6gQ6SQ8"
+          onChange={(val) => setFormData({ ...formData, recaptcha: val })}
+        />
+        <Button
+          onClick={() => (formIsValid ? handleFormSubmit() : null)}
+          disabled={!formIsValid}
+        >
+          Get Estimate
+        </Button>
       </GridContainer>
     </GridContainer>
   );
@@ -120,10 +142,20 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
     If a user navigates directly to this URL without an address, redirect them home
   
   */
-
   if (!address) {
     history.replace("/");
   }
+
+  /* 
+  
+    Render the text for under the progress dots
+  
+  */
+  const renderText = () => (
+    <TextContainer>
+      <StyledText size="h3">Where should we send your estimate?</StyledText>
+    </TextContainer>
+  );
 
   return (
     <Step3Container columns="35% 1fr">

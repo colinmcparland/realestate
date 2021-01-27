@@ -90,6 +90,24 @@ const Step2: FC<Step2Props> = ({ formData, setFormData }) => {
 
   /* 
   
+    Function to check if the selects have an option selected initially.
+    Will improve UI if the user goes back from step 3 to step 2, so the selects will maintain their original value
+  
+  */
+  const isOptionSelected = (option: string | null, choices: string[]) =>
+    option && choices.indexOf(option) > -1 ? choices.indexOf(option) : null;
+
+  /* 
+  
+    If a user navigates directly to this URL without an address, redirect them home
+  
+  */
+  if (!address) {
+    history.replace("/");
+  }
+
+  /* 
+  
     Render the text for under the progress dots
   
   */
@@ -99,15 +117,6 @@ const Step2: FC<Step2Props> = ({ formData, setFormData }) => {
       <StyledText size="h3">please provide us with some more info.</StyledText>
     </TextContainer>
   );
-
-  /* 
-  
-    Function to check if the selects have an option selected initially.
-    Will improve UI if the user goes back from step 3 to step 2, so the selects will maintain their original value
-  
-  */
-  const isOptionSelected = (option: string | null, choices: string[]) =>
-    option && choices.indexOf(option) > -1 ? choices.indexOf(option) : null;
 
   /* 
   
@@ -152,15 +161,6 @@ const Step2: FC<Step2Props> = ({ formData, setFormData }) => {
       </Button>
     </GridContainer>
   );
-
-  /* 
-  
-    If a user navigates directly to this URL without an address, redirect them home
-  
-  */
-  if (!address) {
-    history.replace("/");
-  }
 
   return (
     <Step2Container columns="35% 1fr">

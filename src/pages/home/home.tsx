@@ -70,7 +70,7 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
     Keep track of the input data
   
   */
-  const [inputValue, setInputValue] = useState<string | null>(null);
+  const [inputValue, setInputValue] = useState<string | null>(address || null);
 
   /* 
     

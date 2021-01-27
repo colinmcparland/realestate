@@ -8,4 +8,5 @@ export interface AllFormData {
   name: string | null;
   email: string | null;
   phone: string | null;
+  recaptcha: string | null;
 }
