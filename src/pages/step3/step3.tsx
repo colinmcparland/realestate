@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction } from "react";
+import React, { Dispatch, FC, SetStateAction, useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -62,6 +62,13 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
   };
 
   /* 
+  
+    Keep track if we want to display a recaptcha error
+  
+  */
+  const [recaptchaError, setRecaptchaError] = useState<boolean>(false);
+
+  /* 
 
     Keep track of wether the form is valid
   
@@ -81,7 +88,6 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
   
   */
   const handleFormSubmit = async () => {
-    console.log(JSON.stringify({ recaptcha }));
     // Check that the recaptcha is valid
     const resp = await fetch(`http://${window.location.hostname}:8080`, {
       method: "POST",
@@ -94,6 +100,8 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
     if (responseBody.success) {
       // Send mailchimp email
       history.push("/verification");
+    } else {
+      setRecaptchaError(true);
     }
   };
 
@@ -127,6 +135,11 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
           sitekey="6Le-nT0aAAAAACTdprtG_gThB68R9nPmr6gQ6SQ8"
           onChange={(val) => setFormData({ ...formData, recaptcha: val })}
         />
+        {recaptchaError && (
+          <StyledText>
+            We had an issue processing your CAPTCHA. Please try again.
+          </StyledText>
+        )}
         <Button
           onClick={() => (formIsValid ? handleFormSubmit() : null)}
           disabled={!formIsValid}
