@@ -1,7 +1,6 @@
 [torontohomevalue.tinybird.ca](http://torontohomevalue.tinybird.ca)
 
 # TODO
-- Add Mailchimp integration
 - Mobile responsiveness
 - Add admin contact link to final page
 - Footer contact info
@@ -11,4 +10,7 @@
 - Once site is on clients domain, add domain to Places, Maps, ReCAPTCHA APIs
 - Add everything except home to robots.txt
 - Add a 404 page
+- Add helmet, meta, SEO stuff
+- Think up a better way to host RECaptcha server
 - ~~Add Recaptcha to step 3 page~~
+- ~~Add Followup Boss integration~~

@@ -34,11 +34,18 @@ const StyledButton = styled.div<ButtonProps>`
         background-color: ${white};
       }
     `}
+
+  ${(props) =>
+    props.justifySelf &&
+    css`
+      justify-self: ${props.justifySelf};
+    `}
 `;
 
 interface ButtonProps extends HTMLAttributes<HTMLDivElement> {
   onClick?: () => void;
   disabled?: boolean;
+  justifySelf?: "flex-start";
 }
 
 const Button: FC<ButtonProps> = ({
@@ -46,11 +53,13 @@ const Button: FC<ButtonProps> = ({
   className,
   onClick,
   disabled,
+  justifySelf,
 }) => (
   <StyledButton
     className={className}
     onClick={() => (onClick ? onClick() : null)}
     disabled={disabled}
+    justifySelf={justifySelf}
   >
     {children}
   </StyledButton>

@@ -69,6 +69,13 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
   const [recaptchaError, setRecaptchaError] = useState<boolean>(false);
 
   /* 
+  
+    Keep track of wether we encountered an error with Followup Boss
+  
+  */
+  const [followupBossError, setFollowupBossError] = useState<boolean>(false);
+
+  /* 
 
     Keep track of wether the form is valid
   
@@ -79,7 +86,9 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
     phone &&
     recaptcha &&
     validateEmail(email) &&
-    validatePhone(phone)
+    validatePhone(phone) &&
+    !recaptchaError &&
+    !followupBossError
   );
 
   /* 
@@ -89,19 +98,70 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
   */
   const handleFormSubmit = async () => {
     // Check that the recaptcha is valid
-    const resp = await fetch(`http://${window.location.hostname}:8080`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ recaptcha }),
-    });
+    try {
+      const captchaResp = await fetch(
+        `http://${window.location.hostname}:8080/recaptcha`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ recaptcha }),
+        }
+      );
 
-    const responseBody = await resp.json();
+      const captchaResponseBody = await captchaResp.json();
 
-    if (responseBody.success) {
-      // Send mailchimp email
-      history.push("/verification");
-    } else {
-      setRecaptchaError(true);
+      if (!captchaResponseBody.success) {
+        throw new Error(
+          JSON.stringify({
+            errorSource: "recaptcha",
+            errorBody: captchaResponseBody,
+          })
+        );
+      }
+
+      const followupBossResp = await fetch(
+        `http://${window.location.hostname}:8080/followup-boss`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ formData }),
+        }
+      );
+
+      if (followupBossResp.status !== 200) {
+        throw new Error(
+          JSON.stringify({
+            errorSource: "followupBoss",
+            errorBody: followupBossResp,
+          })
+        );
+      }
+
+      const followupBossResponseBody = await followupBossResp.json();
+
+      if (followupBossResponseBody.errorMessage) {
+        throw new Error(
+          JSON.stringify({
+            errorSource: "followupBoss",
+            errorBody: followupBossResponseBody,
+          })
+        );
+      }
+
+      history.push("/confirm");
+    } catch (e) {
+      const parsedError = JSON.parse(e);
+      const { errorSource } = parsedError || {};
+
+      if (errorSource === "recaptcha") {
+        setRecaptchaError(true);
+      }
+
+      if (errorSource === "followupBoss") {
+        setFollowupBossError(true);
+      }
     }
   };
 
@@ -140,9 +200,15 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
             We had an issue processing your CAPTCHA. Please try again.
           </StyledText>
         )}
+        {followupBossError && (
+          <StyledText>
+            We had an issue submitting your request. Please try again.
+          </StyledText>
+        )}
         <Button
           onClick={() => (formIsValid ? handleFormSubmit() : null)}
           disabled={!formIsValid}
+          justifySelf="flex-start"
         >
           Get Estimate
         </Button>
