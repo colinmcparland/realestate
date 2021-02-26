@@ -54,15 +54,13 @@ app.post("/followup-boss", async (req, res) => {
     // Build the data from the form data
     const dataToSend = {
       source: "Toronto Home Value Website",
-      message: `Condition of property: ${condition}\nHow soon do they want to sell: ${howSoon}\nIs this contact working with an agent?: ${workingWithAgent}`,
+      type: "Seller Inquiry",
+      message: `Condition of property: ${condition}\nHow soon do they want to sell: ${howSoon}\nIs this contact working with an agent?: ${workingWithAgent}\nProperty type: ${propertyType}`,
       person: {
         firstName: name,
         emails: [{ value: email }],
         phones: [{ value: phone }],
-      },
-      property: {
-        street: address,
-        type: propertyType,
+        addresses: [{ street: address }],
       },
     };
 
