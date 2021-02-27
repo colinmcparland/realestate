@@ -1,3 +1,5 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Disallow: /step-2
+Disallow: /step-3
+Disallow: /confirm
