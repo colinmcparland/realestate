@@ -31,7 +31,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "startserver": "yarn forever stopall; yarn forever start -a server.js; yarn forever list"
+    "startserver": "yarn forever stopall; yarn forever start -a server.js; yarn forever list",
+    "deploy": "ssh tinybird.ca 'cd /var/www/realestate; git pull; yarn build; yarn startserver;'"
   },
   "eslintConfig": {
     "extends": [
