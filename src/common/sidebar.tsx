@@ -1,8 +1,9 @@
 import React, { FC } from "react";
 import styled from "styled-components";
 import { darkOrange } from "../colors";
-import { bigPadding, topMargin } from "../css-constants";
+import { bigPadding, mediumPadding, topMargin } from "../css-constants";
 import skyline from "../images/skyline.png";
+import { mobile, desktop } from "../util/responsive";
 import GridContainer from "./grid-container";
 import StyledText from "./styled-text";
 
@@ -16,7 +17,13 @@ const SkylineImage = styled.img`
 `;
 
 const TextContainer = styled(GridContainer)`
-  ${bigPadding}
+  ${mobile`
+    ${mediumPadding}
+  `}
+
+  ${desktop`
+    ${bigPadding}
+  `}
 `;
 
 const AddressContainer = styled(StyledText)`

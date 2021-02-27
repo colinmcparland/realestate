@@ -94,6 +94,13 @@ const Text = styled.div<StyledTextProps>`
     css`
       filter: opacity(50%);
     `}
+    
+  ${(props) =>
+    props.cursor &&
+    props.cursor === "pointer" &&
+    css`
+      cursor: pointer;
+    `}
 `;
 
 interface StyledTextProps
@@ -104,6 +111,7 @@ interface StyledTextProps
   italic?: boolean;
   opaque?: boolean;
   onClick?: (e: SyntheticEvent) => void;
+  cursor?: "pointer";
 }
 
 const StyledText: FC<StyledTextProps> = ({
@@ -115,6 +123,7 @@ const StyledText: FC<StyledTextProps> = ({
   italic,
   opaque,
   onClick,
+  cursor,
 }) => (
   <Text
     size={size}
@@ -124,6 +133,7 @@ const StyledText: FC<StyledTextProps> = ({
     bold={bold}
     opaque={opaque}
     onClick={(e: SyntheticEvent) => (onClick ? onClick(e) : null)}
+    cursor={cursor}
   >
     {children}
   </Text>

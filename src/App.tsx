@@ -9,6 +9,7 @@ import Confirm from "./pages/confirm/confirm";
 import Home from "./pages/home/home";
 import Step2 from "./pages/step2/step2";
 import Step3 from "./pages/step3/step3";
+import { mobile, tablet } from "./util/responsive";
 
 const FooterContainer = styled(GridContainer)`
   ${mediumPadding}
@@ -16,6 +17,16 @@ const FooterContainer = styled(GridContainer)`
 
 const PageContainer = styled(GridContainer)`
   min-height: 95vh;
+`;
+
+const FooterMetaContainer = styled(GridContainer)`
+  ${mobile`
+    grid-template-columns: 1fr;
+  `}
+
+  ${tablet`
+    grid-template-columns: repeat(3, 1fr);
+  `}
 `;
 
 const App: FC = () => {
@@ -59,19 +70,38 @@ const App: FC = () => {
  
     Render the footer
  
- */
+  */
   const renderFooter = () => (
     <FooterContainer
       rowGap="small"
       justifyContent="center"
       justifyItems="center"
     >
-      <StyledText size="small">Contact information for John Doe</StyledText>
-      <GridContainer columns="repeat(3, auto)" columnGap="small">
-        <StyledText size="small">(555) 555 5555</StyledText>
-        <StyledText size="small">email@email.com</StyledText>
-        <StyledText size="small">@socialmedia</StyledText>
-      </GridContainer>
+      <StyledText size="small">
+        Contact information for Toronto Home Value
+      </StyledText>
+      <FooterMetaContainer
+        justifyItems="center"
+        rowGap="small"
+        columns="repeat(3, auto)"
+        columnGap="small"
+      >
+        <StyledText
+          onClick={() => window.open("tel:1-647-691-2913")}
+          size="small"
+          cursor="pointer"
+        >
+          (647) 691-2913
+        </StyledText>
+        <StyledText
+          size="small"
+          cursor="pointer"
+          onClick={() => window.open("mailto:info@torontohomevalue.ca")}
+        >
+          info@torontohomevalue.ca
+        </StyledText>
+        <StyledText size="small">@homevaluetoronto</StyledText>
+      </FooterMetaContainer>
       <StyledText size="small">&copy; {new Date().getFullYear()}</StyledText>
     </FooterContainer>
   );

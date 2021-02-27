@@ -3,19 +3,40 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { AllFormData } from "../../App.types";
 import { cream, darkOrange } from "../../colors";
+import Button from "../../common/button";
 import GridContainer from "../../common/grid-container";
 import Sidebar from "../../common/sidebar";
 import StepCounter from "../../common/step-counter";
 import StyledText from "../../common/styled-text";
-import { bigMargin, bigPadding, bigBottomPadding } from "../../css-constants";
+import {
+  bigMargin,
+  bigPadding,
+  bigBottomPadding,
+  mediumPadding,
+} from "../../css-constants";
+import { mobile, desktop } from "../../util/responsive";
 
 const Step3Container = styled(GridContainer)`
   background-color: ${cream};
+
+  ${mobile`
+    grid-template-columns: 1fr;
+  `}
+
+  ${desktop`
+    grid-template-columns: 35% 1fr;
+  `}
 `;
 
 const FormContainer = styled(GridContainer)`
-  ${bigPadding}
-  ${bigMargin}
+  ${mobile`
+    ${mediumPadding}
+  `}
+
+  ${desktop`
+    ${bigPadding}
+    ${bigMargin}
+  `}
 `;
 
 const TextContainer = styled(GridContainer)`
@@ -48,10 +69,30 @@ const Confirm: FC<ConfirmProps> = ({ formData }) => {
       <TextContainer>
         <StyledText size="h3">Your request has been submitted.</StyledText>
       </TextContainer>
-      <StyledText>
-        You will receive your estimate within 24 hours. If you do not receive an
-        estimate, please <a href="mailto:colin@tinybird.ca">contact us</a>.
-      </StyledText>
+      <GridContainer rowGap="small">
+        <StyledText>
+          Thanks for submitting your information, our team is already hard at
+          work, processing your details. A local property expert will reach out
+          to walk you through the process and collect any additional information
+          needed to narrow your home valuation.
+        </StyledText>
+
+        <StyledText>
+          Once you have a home estimate,we will go over your options should you
+          be in the market to sell your property.
+        </StyledText>
+
+        <StyledText>
+          If you need immediate assistance, tap on the button below to connect
+          with a local property expert.
+        </StyledText>
+      </GridContainer>
+      <Button
+        justifySelf="flex-start"
+        onClick={() => window.open("tel:1-647-691-2913")}
+      >
+        Call Now (647) 691-2913
+      </Button>
     </>
   );
   /* 
@@ -65,7 +106,7 @@ const Confirm: FC<ConfirmProps> = ({ formData }) => {
   }
 
   return (
-    <Step3Container columns="35% 1fr">
+    <Step3Container>
       <Sidebar address={address} />
       <FormContainer
         justifyContent="flex-start"

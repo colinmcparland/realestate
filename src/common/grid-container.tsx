@@ -11,6 +11,7 @@ import {
 
 const StyledGridContainer = styled.div<GridContainerProps>`
   display: grid;
+  box-sizing: border-box;
 
   ${(props) =>
     props.justifySelf &&

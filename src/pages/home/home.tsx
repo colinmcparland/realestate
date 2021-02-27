@@ -11,11 +11,19 @@ import StyledText from "../../common/styled-text";
 import { bigBottomMargin, bigPadding, padding } from "../../css-constants";
 import logoWithText from "../../images/logo-text.png";
 import { AllFormData } from "../../App.types";
+import { mobile, desktop } from "../../util/responsive";
 
 const HomeContainer = styled(GridContainer)`
   min-height: 75vh;
   background-color: ${cream};
-  ${bigPadding}
+
+  ${mobile`
+      ${padding}
+  `}
+
+  ${desktop`
+    ${bigPadding}
+  `}
 `;
 
 const LogoImage = styled.img`
@@ -26,6 +34,7 @@ const LogoImage = styled.img`
 const SuggestionsContainer = styled(GridContainer)`
   position: absolute;
   width: 400px;
+  max-width: 100%;
   top: 100%;
   box-shadow: 0px 1px 5px ${blackTransparent};
 `;
@@ -37,6 +46,27 @@ const Suggestion = styled(GridContainer)`
 
 const FormContainer = styled(GridContainer)`
   position: relative;
+
+  ${mobile`
+    grid-template-columns: 1fr auto;
+    width: 100%;
+  `}
+
+  ${desktop`
+    grid-template-columns: 400px auto;
+    width: auto;
+  `}
+`;
+
+const HeaderTextContainer = styled(GridContainer)`
+  ${mobile`
+    grid-template-columns: auto;
+    text-align: center;
+  `}
+
+  ${desktop`
+    grid-template-columns: repeat(3, auto);
+  `}
 `;
 
 interface HomeProps {
@@ -78,7 +108,7 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
 
   */
   const renderHeaderText = () => (
-    <GridContainer columns="repeat(3, auto)">
+    <HeaderTextContainer columns="repeat(3, auto)">
       <StyledText size="h1" bold>
         How much is your home
       </StyledText>
@@ -88,7 +118,7 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
       <StyledText size="h1" bold>
         worth?
       </StyledText>
-    </GridContainer>
+    </HeaderTextContainer>
   );
 
   /* 
@@ -97,7 +127,7 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
   
   */
   const renderForm = () => (
-    <FormContainer columns="400px auto" columnGap="small">
+    <FormContainer columnGap="small" rowGap="small">
       <GridContainer>
         <Input
           disabled={!ready}

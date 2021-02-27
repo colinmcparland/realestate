@@ -9,15 +9,36 @@ import Select from "../../common/select";
 import Sidebar from "../../common/sidebar";
 import StepCounter from "../../common/step-counter";
 import StyledText from "../../common/styled-text";
-import { bigMargin, bigPadding, bigBottomPadding } from "../../css-constants";
+import {
+  bigMargin,
+  bigPadding,
+  bigBottomPadding,
+  mediumPadding,
+} from "../../css-constants";
+import { mobile, desktop } from "../../util/responsive";
 
 const Step2Container = styled(GridContainer)`
   background-color: ${cream};
+
+  ${mobile`
+    grid-template-columns: 1fr;
+  `}
+
+  ${desktop`
+    grid-template-columns: 35% 1fr;
+  `}
 `;
 
 const FormContainer = styled(GridContainer)`
-  ${bigPadding}
-  ${bigMargin}
+  ${mobile`
+    ${mediumPadding}
+  `}
+
+  ${desktop`
+    ${bigPadding}
+    ${bigMargin}
+    justify-content: flex-start;
+  `}
 `;
 
 const TextContainer = styled(GridContainer)`
@@ -163,13 +184,9 @@ const Step2: FC<Step2Props> = ({ formData, setFormData }) => {
   );
 
   return (
-    <Step2Container columns="35% 1fr">
+    <Step2Container>
       <Sidebar address={address} />
-      <FormContainer
-        justifyContent="flex-start"
-        alignContent="flex-start"
-        rowGap="big"
-      >
+      <FormContainer alignContent="flex-start" rowGap="big">
         <StepCounter step={2} />
         {renderText()}
         {renderSelects()}

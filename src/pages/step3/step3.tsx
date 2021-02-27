@@ -10,15 +10,37 @@ import Input from "../../common/input";
 import Sidebar from "../../common/sidebar";
 import StepCounter from "../../common/step-counter";
 import StyledText from "../../common/styled-text";
-import { bigMargin, bigPadding, bigBottomPadding } from "../../css-constants";
+import {
+  bigMargin,
+  bigPadding,
+  bigBottomPadding,
+  mediumPadding,
+} from "../../css-constants";
+import { mobile, desktop } from "../../util/responsive";
 
 const Step3Container = styled(GridContainer)`
   background-color: ${cream};
+
+  ${mobile`
+    grid-template-columns: 1fr;
+  `}
+
+  ${desktop`
+     grid-template-columns: 35% 1fr;
+     justify-content: 
+  `}
 `;
 
 const FormContainer = styled(GridContainer)`
-  ${bigPadding}
-  ${bigMargin}
+  ${mobile`
+    ${mediumPadding}
+  `}
+
+  ${desktop`
+    ${bigPadding}
+    ${bigMargin}
+    justify-content: flex-start;
+  `}
 `;
 
 const TextContainer = styled(GridContainer)`
@@ -237,13 +259,9 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
   );
 
   return (
-    <Step3Container columns="35% 1fr">
+    <Step3Container>
       <Sidebar address={address} />
-      <FormContainer
-        justifyContent="flex-start"
-        alignContent="flex-start"
-        rowGap="big"
-      >
+      <FormContainer alignContent="flex-start" rowGap="big">
         <StepCounter step={3} />
         {renderText()}
         {renderInputs()}
