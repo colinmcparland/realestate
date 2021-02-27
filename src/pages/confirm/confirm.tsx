@@ -78,7 +78,7 @@ const Confirm: FC<ConfirmProps> = ({ formData }) => {
         </StyledText>
 
         <StyledText>
-          Once you have a home estimate,we will go over your options should you
+          Once you have a home estimate, we will go over your options should you
           be in the market to sell your property.
         </StyledText>
 
