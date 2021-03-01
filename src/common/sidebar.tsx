@@ -32,8 +32,9 @@ const AddressContainer = styled(StyledText)`
 
 interface SidebarProps {
   address: string | null;
+  unit: string | null;
 }
-const Sidebar: FC<SidebarProps> = ({ address }) => (
+const Sidebar: FC<SidebarProps> = ({ address, unit }) => (
   <SidebarContainer>
     <TextContainer alignContent="flex-start" rowGap="big">
       <StyledText bold opaque>
@@ -48,7 +49,7 @@ const Sidebar: FC<SidebarProps> = ({ address }) => (
         </StyledText>
         {address && (
           <AddressContainer bold color="whiteTransparent" size="h3">
-            {address}
+            {`${unit && `#${unit} - `}${address}`}
           </AddressContainer>
         )}
       </GridContainer>

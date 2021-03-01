@@ -11,7 +11,7 @@ import StyledText from "../../common/styled-text";
 import { bigBottomMargin, bigPadding, padding } from "../../css-constants";
 import logoWithText from "../../images/logo-text.png";
 import { AllFormData } from "../../App.types";
-import { mobile, desktop } from "../../util/responsive";
+import { mobile, desktop, tablet } from "../../util/responsive";
 
 const HomeContainer = styled(GridContainer)`
   min-height: 75vh;
@@ -48,12 +48,12 @@ const FormContainer = styled(GridContainer)`
   position: relative;
 
   ${mobile`
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr 20%;
     width: 100%;
   `}
 
-  ${desktop`
-    grid-template-columns: 400px auto;
+  ${tablet`
+    grid-template-columns: 400px auto auto;
     width: auto;
   `}
 `;
@@ -66,6 +66,18 @@ const HeaderTextContainer = styled(GridContainer)`
 
   ${desktop`
     grid-template-columns: repeat(3, auto);
+  `}
+`;
+
+const SubmitButton = styled(Button)`
+  ${mobile`
+    grid-column: 1 / 3;
+    text-align: center;
+  `}
+
+  ${tablet`
+    grid-column: auto;
+    text-align: unset;
   `}
 `;
 
@@ -93,14 +105,20 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
     Destructure form data
   
   */
-  const { address } = formData;
+  const { address, unit } = formData;
 
   /* 
   
     Keep track of the input data
   
   */
-  const [inputValue, setInputValue] = useState<string | null>(address || null);
+  const [addressInputValue, setAddressInputValue] = useState<string | null>(
+    address || null
+  );
+
+  const [unitInputValue, setUnitInputValve] = useState<string | null>(
+    unit || null
+  );
 
   /* 
     
@@ -133,7 +151,7 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
           disabled={!ready}
           placeholder="Enter your address"
           onChange={(val) => {
-            setInputValue(val);
+            setAddressInputValue(val);
             setValue(val);
 
             // If the user changes the input after selecting a valid address, remove the valid address so they cant proceed with gibberish
@@ -141,9 +159,18 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
               setFormData({ ...formData, address: null });
             }
           }}
-          value={inputValue}
+          value={addressInputValue}
         />
       </GridContainer>
+
+      <Input
+        placeholder="Unit #"
+        onChange={(val) => {
+          setUnitInputValve(val);
+          setFormData({ ...formData, unit: val });
+        }}
+        value={unitInputValue}
+      />
 
       {/* Suggestions */}
       <SuggestionsContainer>
@@ -152,7 +179,7 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
             key={idGenerator()}
             onClick={() => {
               setFormData({ ...formData, address: suggestion.description });
-              setInputValue(suggestion.description);
+              setAddressInputValue(suggestion.description);
               clearSuggestions();
             }}
             columns="auto auto"
@@ -163,12 +190,12 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
         ))}
       </SuggestionsContainer>
 
-      <Button
+      <SubmitButton
         disabled={!address}
         onClick={() => (address ? history.push("/step-2") : null)}
       >
         Submit
-      </Button>
+      </SubmitButton>
     </FormContainer>
   );
 

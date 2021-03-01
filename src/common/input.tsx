@@ -1,19 +1,32 @@
 import React, { ChangeEvent, FC } from "react";
 import styled from "styled-components";
 import { black } from "../colors";
-import { mediumPadding } from "../css-constants";
+import {
+  horizontalPadding,
+  mediumHorizontalPadding,
+  mediumVerticalPadding,
+} from "../css-constants";
+import { mobile, tablet } from "../util/responsive";
 import GridContainer from "./grid-container";
 import StyledText from "./styled-text";
 
 const StyledInput = styled.input`
   border: 1px solid ${black};
   border-radius: 0;
-  ${mediumPadding}
+  ${mediumVerticalPadding}
 
   &:disabled {
     cursor: not-allowed;
     filter: brightness(50%);
   }
+
+  ${mobile`
+    ${horizontalPadding}
+  `}
+
+  ${tablet`
+    ${mediumHorizontalPadding}
+  `}
 `;
 
 interface InputProps {

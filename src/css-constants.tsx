@@ -5,11 +5,13 @@ export const padding = css`
 `;
 
 export const horizontalPadding = css`
-  padding: 0 12px;
+  padding-left: 12px;
+  padding-right: 12px;
 `;
 
 export const verticalPadding = css`
-  padding: 12px 0;
+  padding-top: 12px;
+  padding-bottom: 12px;
 `;
 
 export const mediumPadding = css`
@@ -17,11 +19,13 @@ export const mediumPadding = css`
 `;
 
 export const mediumHorizontalPadding = css`
-  padding: 0 25px;
+  padding-left: 25px;
+  padding-right: 25px;
 `;
 
 export const mediumVerticalPadding = css`
-  padding: 25px 0;
+  padding-top: 25px;
+  padding-bottom: 25px;
 `;
 
 export const mediumTopPadding = css`

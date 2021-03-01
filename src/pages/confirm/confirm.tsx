@@ -57,7 +57,7 @@ const Confirm: FC<ConfirmProps> = ({ formData }) => {
     Destructure form data
   
   */
-  const { address } = formData;
+  const { address, unit } = formData;
 
   /* 
   
@@ -107,7 +107,7 @@ const Confirm: FC<ConfirmProps> = ({ formData }) => {
 
   return (
     <Step3Container>
-      <Sidebar address={address} />
+      <Sidebar address={address} unit={unit} />
       <FormContainer
         justifyContent="flex-start"
         alignContent="flex-start"

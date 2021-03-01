@@ -65,6 +65,7 @@ const Step2: FC<Step2Props> = ({ formData, setFormData }) => {
     condition,
     propertyType,
     workingWithAgent,
+    unit,
   } = formData;
 
   /* 
@@ -185,7 +186,7 @@ const Step2: FC<Step2Props> = ({ formData, setFormData }) => {
 
   return (
     <Step2Container>
-      <Sidebar address={address} />
+      <Sidebar address={address} unit={unit} />
       <FormContainer alignContent="flex-start" rowGap="big">
         <StepCounter step={2} />
         {renderText()}

@@ -48,6 +48,7 @@ app.post("/followup-boss", async (req, res) => {
     name,
     email,
     phone,
+    unit,
   } = formData;
 
   try {
@@ -60,7 +61,7 @@ app.post("/followup-boss", async (req, res) => {
         firstName: name,
         emails: [{ value: email }],
         phones: [{ value: phone }],
-        addresses: [{ street: address }],
+        addresses: [{ street: `${unit && `#${unit} - `}${address}` }],
       },
     };
 

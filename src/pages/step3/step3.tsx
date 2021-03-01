@@ -61,7 +61,7 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
     Destructure form data
   
   */
-  const { name, email, phone, address, recaptcha } = formData;
+  const { name, email, phone, address, recaptcha, unit } = formData;
 
   /* 
   
@@ -260,7 +260,7 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
 
   return (
     <Step3Container>
-      <Sidebar address={address} />
+      <Sidebar address={address} unit={unit} />
       <FormContainer alignContent="flex-start" rowGap="big">
         <StepCounter step={3} />
         {renderText()}
