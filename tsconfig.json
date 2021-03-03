@@ -18,9 +18,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react-jsx"
   },
   "include": [
-    "src", ".eslintrc.js", "server.js"
+    "src", ".eslintrc.js", "server/server.js"
   ]
 }
