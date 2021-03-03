@@ -122,7 +122,7 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
     // Check that the recaptcha is valid
     try {
       const captchaResp = await fetch(
-        `http://${window.location.hostname}:8080/recaptcha`,
+        `https://${window.location.hostname}:8080/recaptcha`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -142,7 +142,7 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
       }
 
       const followupBossResp = await fetch(
-        `http://${window.location.hostname}:8080/followup-boss`,
+        `https://${window.location.hostname}:8080/followup-boss`,
         {
           method: "POST",
           headers: {
