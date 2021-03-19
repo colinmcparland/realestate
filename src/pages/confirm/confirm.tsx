@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction } from "react";
+import React, { Dispatch, FC, SetStateAction, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { AllFormData } from "../../App.types";
@@ -51,6 +51,23 @@ interface ConfirmProps {
 
 const Confirm: FC<ConfirmProps> = ({ formData }) => {
   const history = useHistory();
+
+  /* 
+  
+    Send a conversion event
+  
+  */
+  const isFirstRender = useRef<boolean>(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      // add script to DOM
+      const event = document.createElement("script");
+      event.innerHTML =
+        "gtag('event', 'conversion', {'send_to': 'AW-410671059/mzeICNPPzfwBENOv6cMB'});";
+      document.head.appendChild(event);
+      isFirstRender.current = false;
+    }
+  }, []);
 
   /* 
   

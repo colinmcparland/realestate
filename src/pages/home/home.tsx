@@ -1,4 +1,11 @@
-import React, { Dispatch, FC, SetStateAction, useState } from "react";
+import React, {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import usePlacesAutocomplete from "use-places-autocomplete";
@@ -98,7 +105,7 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
     suggestions: { data },
     setValue,
     clearSuggestions,
-  } = usePlacesAutocomplete({ debounce: 30, callbackName: "initMap" });
+  } = usePlacesAutocomplete({ debounce: 1000, callbackName: "initMap" });
 
   /* 
   
@@ -119,6 +126,23 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
   const [unitInputValue, setUnitInputValve] = useState<string | null>(
     unit || null
   );
+
+  /* 
+  
+    Send a conversion event
+  
+  */
+  const isFirstRender = useRef<boolean>(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      // add script to DOM
+      const event = document.createElement("script");
+      event.innerHTML =
+        "gtag('event', 'conversion', {'send_to': 'AW-410671059/tgW2CJD7q_wBENOv6cMB'});";
+      document.head.appendChild(event);
+      isFirstRender.current = false;
+    }
+  }, []);
 
   /* 
     

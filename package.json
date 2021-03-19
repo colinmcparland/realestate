@@ -35,7 +35,6 @@
     "deploydev": "ssh tinybird.ca 'cd /var/www/realestate; git pull; yarn build; yarn startserver;'",
     "deployprod": "ssh torontohomevalue 'cd /var/www/realestate; git pull; yarn build; yarn startserver'"
   },
-  
   "eslintConfig": {
     "extends": [
       "react-app",

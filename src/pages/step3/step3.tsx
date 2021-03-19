@@ -1,4 +1,11 @@
-import React, { Dispatch, FC, SetStateAction, useState } from "react";
+import React, {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useState,
+  useRef,
+  useEffect,
+} from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -96,6 +103,23 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
   
   */
   const [followupBossError, setFollowupBossError] = useState<boolean>(false);
+
+  /* 
+  
+    Send a conversion event
+  
+  */
+  const isFirstRender = useRef<boolean>(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      // add script to DOM
+      const event = document.createElement("script");
+      event.innerHTML =
+        "gtag('event', 'conversion', {'send_to': 'AW-410671059/PZ88CNeArPwBENOv6cMB'});";
+      document.head.appendChild(event);
+      isFirstRender.current = false;
+    }
+  }, []);
 
   /* 
 
