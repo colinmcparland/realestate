@@ -5,7 +5,8 @@ export interface AllFormData {
   condition: string | null;
   propertyType: string | null;
   workingWithAgent: string | null;
-  name: string | null;
+  firstName: string | null;
+  lastName: string | null;
   email: string | null;
   phone: string | null;
   recaptcha: string | null;

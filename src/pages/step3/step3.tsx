@@ -68,7 +68,15 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
     Destructure form data
   
   */
-  const { name, email, phone, address, recaptcha, unit } = formData;
+  const {
+    firstName,
+    lastName,
+    email,
+    phone,
+    address,
+    recaptcha,
+    unit,
+  } = formData;
 
   /* 
   
@@ -113,12 +121,20 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
   useEffect(() => {
     if (isFirstRender.current) {
       // add script to DOM
-      const event = document.createElement("script");
-      event.innerHTML =
+      const s = document.createElement("script");
+      s.innerHTML =
         "gtag('event', 'conversion', {'send_to': 'AW-410671059/PZ88CNeArPwBENOv6cMB'});";
-      document.head.appendChild(event);
+      s.setAttribute("id", "event3");
+      document.head.appendChild(s);
       isFirstRender.current = false;
     }
+
+    return () => {
+      const s = document.getElementById("event3");
+      if (s) {
+        document.head.removeChild(s);
+      }
+    };
   }, []);
 
   /* 
@@ -127,7 +143,8 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
   
   */
   const formIsValid = !!(
-    name &&
+    firstName &&
+    lastName &&
     email &&
     phone &&
     recaptcha &&
@@ -219,10 +236,16 @@ const Step3: FC<Step3Props> = ({ formData, setFormData }) => {
   const renderInputs = () => (
     <GridContainer rowGap="small" justifyItems="stretch" columns="1fr">
       <Input
-        value={name}
-        label="Full name *"
-        onChange={(val) => setFormData({ ...formData, name: val })}
-        placeholder="Type your name..."
+        value={firstName}
+        label="First name *"
+        onChange={(val) => setFormData({ ...formData, firstName: val })}
+        placeholder="Type your first name..."
+      />
+      <Input
+        value={lastName}
+        label="Last name *"
+        onChange={(val) => setFormData({ ...formData, lastName: val })}
+        placeholder="Type your last name..."
       />
       <Input
         value={email}

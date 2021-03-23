@@ -128,12 +128,20 @@ const Step2: FC<Step2Props> = ({ formData, setFormData }) => {
   useEffect(() => {
     if (isFirstRender.current) {
       // add script to DOM
-      const event = document.createElement("script");
-      event.innerHTML =
+      const s = document.createElement("script");
+      s.innerHTML =
         "gtag('event', 'conversion', {'send_to': 'AW-410671059/l47VCPDLzfwBENOv6cMB'});";
-      document.head.appendChild(event);
+      s.setAttribute("id", "event2");
+      document.head.appendChild(s);
       isFirstRender.current = false;
     }
+
+    return () => {
+      const s = document.getElementById("event2");
+      if (s) {
+        document.head.removeChild(s);
+      }
+    };
   }, []);
 
   /* 

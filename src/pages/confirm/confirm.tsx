@@ -61,12 +61,20 @@ const Confirm: FC<ConfirmProps> = ({ formData }) => {
   useEffect(() => {
     if (isFirstRender.current) {
       // add script to DOM
-      const event = document.createElement("script");
-      event.innerHTML =
+      const s = document.createElement("script");
+      s.innerHTML =
         "gtag('event', 'conversion', {'send_to': 'AW-410671059/mzeICNPPzfwBENOv6cMB'});";
-      document.head.appendChild(event);
+      s.setAttribute("id", "event4");
+      document.head.appendChild(s);
       isFirstRender.current = false;
     }
+
+    return () => {
+      const s = document.getElementById("event4");
+      if (s) {
+        document.head.removeChild(s);
+      }
+    };
   }, []);
 
   /* 
