@@ -132,24 +132,24 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
     Send a conversion event
   
   */
-  const isFirstRender = useRef<boolean>(true);
-  useEffect(() => {
-    if (isFirstRender.current) {
-      const s = document.createElement("script");
-      s.innerHTML =
-        "gtag('event', 'conversion', {'send_to': 'AW-410671059/tgW2CJD7q_wBENOv6cMB'});";
-      s.setAttribute("id", "event1");
-      document.head.appendChild(s);
-      isFirstRender.current = false;
-    }
+  // const isFirstRender = useRef<boolean>(true);
+  // useEffect(() => {
+  //   if (isFirstRender.current) {
+  //     const s = document.createElement("script");
+  //     s.innerHTML =
+  //       "gtag('event', 'conversion', {'send_to': 'AW-410671059/tgW2CJD7q_wBENOv6cMB'});";
+  //     s.setAttribute("id", "event1");
+  //     document.head.appendChild(s);
+  //     isFirstRender.current = false;
+  //   }
 
-    return () => {
-      const s = document.getElementById("event1");
-      if (s) {
-        document.head.removeChild(s);
-      }
-    };
-  }, []);
+  //   return () => {
+  //     const s = document.getElementById("event1");
+  //     if (s) {
+  //       document.head.removeChild(s);
+  //     }
+  //   };
+  // }, []);
 
   /* 
     

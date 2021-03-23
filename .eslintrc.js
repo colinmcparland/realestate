@@ -35,6 +35,7 @@ module.exports = {
     "react/jsx-one-expression-per-line": 0,
     "@typescript-eslint/comma-dangle": 0,
     "no-debugger": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
   },
   settings: {
     // Config for the react plugin
