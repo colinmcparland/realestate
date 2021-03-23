@@ -52,6 +52,8 @@ app.post("/followup-boss", async (req, res) => {
     unit,
   } = formData;
 
+  console.log({ formData });
+
   try {
     // Build the data from the form data
     const dataToSend = {
@@ -66,6 +68,8 @@ app.post("/followup-boss", async (req, res) => {
         addresses: [{ street: `${unit && `#${unit} - `}${address}` }],
       },
     };
+
+    console.log({ dataToSend });
 
     const response = await nodeFetch("https://api.followupboss.com/v1/events", {
       method: "POST",
