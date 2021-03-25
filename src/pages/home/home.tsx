@@ -1,11 +1,4 @@
-import React, {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { Dispatch, FC, SetStateAction, useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import usePlacesAutocomplete from "use-places-autocomplete";
@@ -126,30 +119,6 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
   const [unitInputValue, setUnitInputValve] = useState<string | null>(
     unit || null
   );
-
-  /* 
-  
-    Send a conversion event
-  
-  */
-  // const isFirstRender = useRef<boolean>(true);
-  // useEffect(() => {
-  //   if (isFirstRender.current) {
-  //     const s = document.createElement("script");
-  //     s.innerHTML =
-  //       "gtag('event', 'conversion', {'send_to': 'AW-410671059/tgW2CJD7q_wBENOv6cMB'});";
-  //     s.setAttribute("id", "event1");
-  //     document.head.appendChild(s);
-  //     isFirstRender.current = false;
-  //   }
-
-  //   return () => {
-  //     const s = document.getElementById("event1");
-  //     if (s) {
-  //       document.head.removeChild(s);
-  //     }
-  //   };
-  // }, []);
 
   /* 
     

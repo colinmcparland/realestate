@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction, useEffect, useRef } from "react";
+import React, { Dispatch, FC, SetStateAction } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { AllFormData } from "../../App.types";
@@ -118,31 +118,6 @@ const Step2: FC<Step2Props> = ({ formData, setFormData }) => {
   */
   const isOptionSelected = (option: string | null, choices: string[]) =>
     option && choices.indexOf(option) > -1 ? choices.indexOf(option) : null;
-
-  /* 
-  
-    Send a conversion event
-  
-  */
-  // const isFirstRender = useRef<boolean>(true);
-  // useEffect(() => {
-  //   if (isFirstRender.current) {
-  //     // add script to DOM
-  //     const s = document.createElement("script");
-  //     s.innerHTML =
-  //       "gtag('event', 'conversion', {'send_to': 'AW-410671059/l47VCPDLzfwBENOv6cMB'});";
-  //     s.setAttribute("id", "event2");
-  //     document.head.appendChild(s);
-  //     isFirstRender.current = false;
-  //   }
-
-  //   return () => {
-  //     const s = document.getElementById("event2");
-  //     if (s) {
-  //       document.head.removeChild(s);
-  //     }
-  //   };
-  // }, []);
 
   /* 
   
