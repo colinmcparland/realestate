@@ -49,7 +49,7 @@ const Sidebar: FC<SidebarProps> = ({ address, unit }) => (
         </StyledText>
         {address && (
           <AddressContainer bold color="whiteTransparent" size="h3">
-            {`${unit && `#${unit} - `}${address}`}
+            {`${unit ? `#${unit} - ` : ""}${address}`}
           </AddressContainer>
         )}
       </GridContainer>
