@@ -65,7 +65,7 @@ app.post("/followup-boss", async (req, res) => {
         lastName,
         emails: [{ value: email }],
         phones: [{ value: phone }],
-        addresses: [{ street: `${unit && `#${unit} - `}${address}` }],
+        addresses: [{ street: `${unit ? `#${unit} - ` : ""}${address}` }],
       },
     };
 
