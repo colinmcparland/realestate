@@ -1,17 +1,45 @@
-import React, { Dispatch, FC, SetStateAction, useState } from "react";
+import React, {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import usePlacesAutocomplete from "use-places-autocomplete";
 import idGenerator from "react-id-generator";
-import { blackTransparent, cream, white } from "../../colors";
+import ReCAPTCHA from "react-google-recaptcha";
+import { blackTransparent, cream, darkOrange, white } from "../../colors";
 import Button from "../../common/button";
 import GridContainer from "../../common/grid-container";
 import Input from "../../common/input";
 import StyledText from "../../common/styled-text";
-import { bigBottomMargin, bigPadding, padding } from "../../css-constants";
+import {
+  bigBottomMargin,
+  bigBottomPadding,
+  bigMargin,
+  bigPadding,
+  mediumPadding,
+  padding,
+} from "../../css-constants";
 import logoWithText from "../../images/logo-text.png";
 import { AllFormData } from "../../App.types";
 import { mobile, desktop, tablet } from "../../util/responsive";
+
+const UserFormContainer = styled(GridContainer)`
+  transition: 0.5s ease-in-out;
+  ${mobile`
+    ${mediumPadding}
+  `}
+
+  ${desktop`
+    ${bigPadding}
+    ${bigMargin}
+    justify-content: flex-start;
+  `}
+`;
 
 const HomeContainer = styled(GridContainer)`
   min-height: 75vh;
@@ -81,6 +109,11 @@ const SubmitButton = styled(Button)`
   `}
 `;
 
+const TextContainer = styled(GridContainer)`
+  border-bottom: 1px solid ${darkOrange};
+  ${bigBottomPadding}
+`;
+
 interface HomeProps {
   setFormData: Dispatch<SetStateAction<AllFormData>>;
   formData: AllFormData;
@@ -88,6 +121,34 @@ interface HomeProps {
 
 const Home: FC<HomeProps> = ({ setFormData, formData }) => {
   const history = useHistory();
+
+  /* 
+  
+    Track the user form with a ref so we can scroll it into view
+  
+  */
+  const userFormRef = useRef<HTMLDivElement>(null);
+
+  /* 
+  
+    Validate email
+  
+  */
+  const validateEmail = (emailToCheck: string) => {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(emailToCheck).toLowerCase());
+  };
+
+  /* 
+    
+      Validate phone #
+    
+    */
+  const validatePhone = (phoneToCheck: string) => {
+    const re = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+    return re.test(String(phoneToCheck).toLowerCase());
+  };
+
   /* 
   
     Load in a custom hook to interact with Google Places API
@@ -105,7 +166,15 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
     Destructure form data
   
   */
-  const { address, unit } = formData;
+  const {
+    address,
+    unit,
+    firstName,
+    lastName,
+    email,
+    phone,
+    recaptcha,
+  } = formData;
 
   /* 
   
@@ -118,6 +187,45 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
 
   const [unitInputValue, setUnitInputValve] = useState<string | null>(
     unit || null
+  );
+
+  /* 
+  
+    Keep track if we want to display a recaptcha error
+  
+  */
+  const [recaptchaError, setRecaptchaError] = useState<boolean>(false);
+
+  /* 
+    
+    Keep track of wether we encountered an error with Followup Boss
+  
+  */
+  const [followupBossError, setFollowupBossError] = useState<boolean>(false);
+
+  /* 
+  
+    Keep track of wether the user form is visible
+    Should only be visible is address is valid
+  
+  */
+  const [userFormVisible, setUserFormVisible] = useState<boolean>(false);
+
+  /* 
+
+    Keep track of wether the form input is valid
+  
+  */
+  const formIsValid = !!(
+    firstName &&
+    lastName &&
+    email &&
+    phone &&
+    recaptcha &&
+    validateEmail(email) &&
+    validatePhone(phone) &&
+    !recaptchaError &&
+    !followupBossError
   );
 
   /* 
@@ -144,11 +252,11 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
     Render the form for the address and unit number
   
   */
-  const renderForm = () => (
+  const renderAddressForm = () => (
     <FormContainer columnGap="small" rowGap="small">
       <GridContainer>
         <Input
-          disabled={!ready}
+          disabled={!ready || userFormVisible}
           placeholder="Enter your address"
           onChange={(val) => {
             setAddressInputValue(val);
@@ -164,6 +272,7 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
       </GridContainer>
 
       <Input
+        disabled={userFormVisible}
         placeholder="Unit #"
         onChange={(val) => {
           setUnitInputValve(val);
@@ -191,13 +300,178 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
       </SuggestionsContainer>
 
       <SubmitButton
-        disabled={!address}
-        onClick={() => (address ? history.push("/step-2") : null)}
+        disabled={!address || userFormVisible}
+        onClick={() => {
+          if (address && !userFormVisible) {
+            setUserFormVisible(true);
+          }
+        }}
       >
         Submit
       </SubmitButton>
     </FormContainer>
   );
+
+  /* 
+  
+    Function that will run when the form is submitted
+  
+  */
+  const handleFormSubmit = async () => {
+    // Check that the recaptcha is valid
+    try {
+      const captchaResp = await fetch(
+        "https://api.torontohomevalue.ca/recaptcha",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ recaptcha }),
+        }
+      );
+
+      const captchaResponseBody = await captchaResp.json();
+
+      if (!captchaResponseBody.success) {
+        throw new Error(
+          JSON.stringify({
+            errorSource: "recaptcha",
+            errorBody: captchaResponseBody,
+          })
+        );
+      }
+
+      const followupBossResp = await fetch(
+        "https://api.torontohomevalue.ca/followup-boss",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ formData }),
+        }
+      );
+
+      if (followupBossResp.status !== 200) {
+        throw new Error(
+          JSON.stringify({
+            errorSource: "followupBoss",
+            errorBody: followupBossResp,
+          })
+        );
+      }
+
+      const followupBossResponseBody = await followupBossResp.json();
+
+      if (followupBossResponseBody.errorMessage) {
+        throw new Error(
+          JSON.stringify({
+            errorSource: "followupBoss",
+            errorBody: followupBossResponseBody,
+          })
+        );
+      }
+
+      history.push("/confirm");
+    } catch (e) {
+      const parsedError = JSON.parse(e);
+      const { errorSource } = parsedError || {};
+
+      if (errorSource === "recaptcha") {
+        setRecaptchaError(true);
+      }
+
+      if (errorSource === "followupBoss") {
+        setFollowupBossError(true);
+      }
+    }
+  };
+
+  /* 
+  
+    Render inputs for the user form
+  
+  */
+  /* 
+  
+    Render the form selects
+  
+  */
+  const renderUserFormInputs = () => (
+    <GridContainer rowGap="small" justifyItems="stretch" columns="1fr">
+      <Input
+        value={firstName}
+        label="First name *"
+        onChange={(val) => setFormData({ ...formData, firstName: val })}
+        placeholder="Type your first name..."
+      />
+      <Input
+        value={lastName}
+        label="Last name *"
+        onChange={(val) => setFormData({ ...formData, lastName: val })}
+        placeholder="Type your last name..."
+      />
+      <Input
+        value={email}
+        label="Email address *"
+        onChange={(val) => setFormData({ ...formData, email: val })}
+        placeholder="Type your email..."
+      />
+      <Input
+        value={phone}
+        label="Phone number *"
+        onChange={(val) => setFormData({ ...formData, phone: val })}
+        placeholder="(555) 555-5555"
+      />
+      <GridContainer justifySelf="flex-start" rowGap="small">
+        <ReCAPTCHA
+          sitekey="6Le-nT0aAAAAACTdprtG_gThB68R9nPmr6gQ6SQ8"
+          onChange={(val) => setFormData({ ...formData, recaptcha: val })}
+        />
+        {recaptchaError && (
+          <StyledText>
+            We had an issue processing your CAPTCHA. Please try again.
+          </StyledText>
+        )}
+        {followupBossError && (
+          <StyledText>
+            We had an issue submitting your request. Please try again.
+          </StyledText>
+        )}
+        <Button
+          onClick={() => (formIsValid ? handleFormSubmit() : null)}
+          disabled={!formIsValid}
+          justifySelf="flex-start"
+        >
+          Get Estimate
+        </Button>
+      </GridContainer>
+    </GridContainer>
+  );
+
+  /* 
+  
+    Render a form for the user info that used to be on /step-3
+  
+  */
+  const renderUserForm = () => (
+    <div ref={userFormRef}>
+      <UserFormContainer alignContent="flex-start" rowGap="big">
+        <TextContainer>
+          <StyledText size="h3">Where should we send your estimate?</StyledText>
+        </TextContainer>
+        {renderUserFormInputs()}
+      </UserFormContainer>
+    </div>
+  );
+
+  useEffect(() => {
+    if (userFormVisible) {
+      window.scrollTo({
+        top: userFormRef.current?.offsetTop,
+        behavior: "smooth",
+      });
+    }
+  }, [userFormVisible]);
 
   return (
     <HomeContainer
@@ -207,8 +481,9 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
     >
       <LogoImage src={logoWithText} />
       {renderHeaderText()}
-      {renderForm()}
+      {renderAddressForm()}
       <StyledText>Receive an accurate estimate in minutes.</StyledText>
+      {userFormVisible && renderUserForm()}
     </HomeContainer>
   );
 };

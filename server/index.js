@@ -41,10 +41,10 @@ app.post("/followup-boss", async (req, res) => {
   const { formData } = body;
   const {
     address,
-    howSoon,
-    condition,
-    propertyType,
-    workingWithAgent,
+    // howSoon,
+    // condition,
+    // propertyType,
+    // workingWithAgent,
     firstName,
     lastName,
     email,
@@ -59,7 +59,7 @@ app.post("/followup-boss", async (req, res) => {
     const dataToSend = {
       source: "Toronto Home Value Website",
       type: "Seller Inquiry",
-      message: `Condition of property: ${condition}\nHow soon do they want to sell: ${howSoon}\nIs this contact working with an agent?: ${workingWithAgent}\nProperty type: ${propertyType}`,
+      // message: `Condition of property: ${condition}\nHow soon do they want to sell: ${howSoon}\nIs this contact working with an agent?: ${workingWithAgent}\nProperty type: ${propertyType}`,
       person: {
         firstName,
         lastName,

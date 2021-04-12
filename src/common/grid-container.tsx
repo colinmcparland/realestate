@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes } from "react";
+import React, { FC, HTMLAttributes, HTMLProps } from "react";
 import styled, { css } from "styled-components";
 import {
   bigHorizontalGridGap,
@@ -107,7 +107,7 @@ interface GridContainerProps extends HTMLAttributes<HTMLDivElement> {
   justifySelf?: FlexProps;
 }
 
-const GridContainer: FC<GridContainerProps> = ({
+const GridContainer: FC<GridContainerProps & HTMLProps<HTMLDivElement>> = ({
   children,
   className,
   justifyContent,
