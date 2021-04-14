@@ -113,7 +113,7 @@ const Confirm: FC<ConfirmProps> = ({ formData }) => {
         alignContent="flex-start"
         rowGap="big"
       >
-        <StepCounter step={3} />
+        {/* <StepCounter step={3} /> */}
         {renderText()}
       </FormContainer>
     </Step3Container>

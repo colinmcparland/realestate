@@ -442,7 +442,7 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
           disabled={!formIsValid}
           justifySelf="flex-start"
         >
-          Get Estimate
+          Get Home Value!
         </Button>
       </GridContainer>
     </GridContainer>
@@ -482,7 +482,7 @@ const Home: FC<HomeProps> = ({ setFormData, formData }) => {
       <LogoImage src={logoWithText} />
       {renderHeaderText()}
       {renderAddressForm()}
-      <StyledText>Receive an accurate estimate in minutes.</StyledText>
+      <StyledText>Receive an accurate valuation in minutes.</StyledText>
       {userFormVisible && renderUserForm()}
     </HomeContainer>
   );
